@@ -18,6 +18,12 @@ import logging
 from flask import Flask, request, make_response, jsonify
 import pymongo
 
+try:
+    import googleclouddebugger
+    googleclouddebugger.enable()
+except ImportError:
+    pass
+
 app = Flask(__name__)
 client = pymongo.MongoClient("mongodb+srv://admin:password1234@cluster0-bzguy.gcp.mongodb.net/test?retryWrites=true")
 # function for responses
