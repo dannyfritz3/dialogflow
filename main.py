@@ -38,18 +38,19 @@ def results():
     #get menu data from database
     data = collection.find_one({"meal":meal})
     meta_data = ['_id', 'date', 'meal']
-    return {'fulfillmentText':'test'}
+    resp_str = build_response(data)
+    return {'fulfillmentText':resp_str}
+
+def build_response(data):
     if len(data) > 0:
         build_str = ''
         for i in data:
             if i not in meta_data:
                 build_str += data.get(i) + ", "
         full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
-        return {'fulfilmentText': full_str}
-    # return a fulfillment response
+        return full_str
     else:
-        return {'fulfillmentText': 'Sorry, couldn\'t find any information on that.'}
-
+        return 'Sorry, couldn\'t find any information on that.'
 # create a route for webhook
 @app.route('/webhook', methods=['POST'])
 def webhook():
