@@ -32,7 +32,8 @@ def results():
     req = request.get_json(force=True)
 
     # fetch meal from json
-    meal = req.get('queryResult').get('queryText')
+    meal = req.get('queryResult').get('parameters').get('meal')
+    date = req.get('queryResult').get('parameters').get('date')
     #data = scrape(meal, date)
     db = client.test
     collection = db['menu_data']
