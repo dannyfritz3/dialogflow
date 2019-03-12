@@ -28,13 +28,14 @@ app = Flask(__name__)
 client = pymongo.MongoClient("mongodb+srv://admin:password1234@cluster0-bzguy.gcp.mongodb.net/test?retryWrites=true")
 # function for responses
 def results():
+    return {'fulfillmentText':'test'}
     # build a request object
     req = request.get_json(force=True)
 
-    # fetch meal from json
+    # fetch meal and date from json
     meal = req.get('queryResult').get('parameters').get('meal')
     date = req.get('queryResult').get('parameters').get('date')
-    #data = scrape(meal, date)
+    #get menu data from database
     db = client.test
     collection = db['menu_data']
     data = collection.find_one({"meal":meal})
@@ -44,8 +45,8 @@ def results():
         for i in data:
             if i not in meta_data:
                 build_str += data.get(i) + ", "
-        #return {'fulfilmentText': 'Today for ' + meal + ', the reef will be serving' + build_str}
-        return {'fulfilmentText': 'Today for ' + meal + ', the reef will be serving'}
+        full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
+        return {'fulfilmentText': full_str}
     # return a fulfillment response
     else:
         return {'fulfillmentText': 'Sorry, couldn\'t find any information on that.'}
