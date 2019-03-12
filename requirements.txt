@@ -1,0 +1,7 @@
+Flask==1.0.2
+gunicorn==19.9.0
+selenium==3.141.0
+requests==2.21.0
+pymongo==3.7.2
+dnspython==1.16.0
+google-python-cloud-debugger==2.9
