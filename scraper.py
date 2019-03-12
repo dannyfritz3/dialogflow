@@ -16,7 +16,6 @@ def main():
     date = get_date_today()
     data = scrape('breakfast', date)
     test_id = collection.insert_one(data)
-    data = scrape('lunch', date)
     test_id = collection.insert_one(data)
     data = scrape('dinner', date)
     test_id = collection.insert_one(data)

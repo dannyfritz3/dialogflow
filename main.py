@@ -17,6 +17,7 @@ import logging
 
 from flask import Flask, request, make_response, jsonify
 import pymongo
+from format_date import format_date
 
 try:
     import googleclouddebugger
@@ -35,8 +36,9 @@ def results():
     # fetch meal and date from json
     meal = req.get('queryResult').get('parameters').get('meal')
     date = req.get('queryResult').get('parameters').get('date')
+    formatted_date = format_date(date)
     #get menu data from database
-    data = collection.find_one({"meal":meal})
+    data = collection.find_one({"$and":[{"meal":meal},{"date":formatted_date}]})
     resp_str = build_response(data, meal)
     return {'fulfillmentText':resp_str}
 
@@ -44,13 +46,19 @@ def build_response(data, meal):
     meta_data = ['_id', 'date', 'meal']
     if len(data) > 0:
         build_str = ''
+        count = 0
         for i in data:
             if i not in meta_data:
-                build_str += data.get(i) + ", "
+                if count == len(data - 1):
+                    build_str += "and " + data.get(i) + "."
+                else:
+                    build_str += data.get(i) + ", "
+            count += 1
         full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
         return full_str
     else:
         return 'Sorry, couldn\'t find any information on that.'
+
 # create a route for webhook
 @app.route('/webhook', methods=['POST'])
 def webhook():
