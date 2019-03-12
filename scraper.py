@@ -16,9 +16,23 @@ def main():
     date = get_date_today()
     data = scrape('breakfast', date)
     test_id = collection.insert_one(data)
+    data = scrape('lunch', date)
     test_id = collection.insert_one(data)
     data = scrape('dinner', date)
     test_id = collection.insert_one(data)
+    
+    meals_MTWRFSa = ['breakfast', 'lunch', 'dinner']
+    meals_Sun = ['breakfast', 'brunch', 'dinner']
+
+    for i in range(0, 7):
+        #if Sunday, get Sunday menu (brunch)
+        if get_weekday_today() == 0:
+
+        else:
+            date = get_date_today()
+
+def get_weekday_today():
+    return datetime.datetime.today().weekday()
 
 def get_date_today():
     day = datetime.datetime.today().day

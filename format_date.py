@@ -54,7 +54,7 @@ def format_date(date):
     date_str = weekday + ', ' + month + ' ' + str(day) + ', ' + str(year)
     return date_str
 
-def main():
+'''def main():
     test_date = '2019-03-12T12:00:00-05:00'
     formatted_date = format_date(test_date)
     print(formatted_date)
@@ -66,4 +66,4 @@ def main():
     print(data)
 
 if __name__ == '__main__':
-    main()
+    main()'''
