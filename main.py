@@ -37,11 +37,11 @@ def results():
     date = req.get('queryResult').get('parameters').get('date')
     #get menu data from database
     data = collection.find_one({"meal":meal})
-    meta_data = ['_id', 'date', 'meal']
     resp_str = build_response(data)
     return {'fulfillmentText':resp_str}
 
 def build_response(data):
+    meta_data = ['_id', 'date', 'meal']
     if len(data) > 0:
         build_str = ''
         for i in data:
