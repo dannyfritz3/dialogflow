@@ -54,7 +54,59 @@ def format_date(date):
     date_str = weekday + ', ' + month + ' ' + str(day) + ', ' + str(year)
     return date_str
 
-'''def main():
+def get_date_today():
+    day = datetime.datetime.today().day
+    year = datetime.datetime.today().year
+    weekday = ''
+    month = ''
+
+    if(datetime.datetime.today().month == 1):
+        month = 'January'
+    elif(datetime.datetime.today().month == 2):
+        month = 'February'
+    elif(datetime.datetime.today().month == 3):
+        month = 'March'
+    elif(datetime.datetime.today().month == 4):
+        month = 'April'
+    elif(datetime.datetime.today().month == 5):
+        month = 'May'
+    elif(datetime.datetime.today().month == 6):
+        month = 'June'
+    elif(datetime.datetime.today().month == 7):
+        month = 'July'
+    elif(datetime.datetime.today().month == 8):
+        month = 'August'
+    elif(datetime.datetime.today().month == 9):
+        month = 'September'
+    elif(datetime.datetime.today().month == 10):
+        month = 'October'
+    elif(datetime.datetime.today().month == 11):
+        month = 'November'
+    elif(datetime.datetime.today().month == 12):
+        month = 'December'
+    else:
+        month = ''
+
+    if(datetime.datetime.today().weekday() == 0):
+        weekday = 'Monday'
+    elif(datetime.datetime.today().weekday() == 1):
+        weekday = 'Tuesday'
+    elif(datetime.datetime.today().weekday() == 2):
+        weekday = 'Wednesday'
+    elif(datetime.datetime.today().weekday() == 3):
+        weekday = 'Thursday'
+    elif(datetime.datetime.today().weekday() == 4):
+        weekday = 'Friday'
+    elif(datetime.datetime.today().weekday() == 5):
+        weekday = 'Saturday'
+    elif(datetime.datetime.today().weekday() == 6):
+        weekday = 'Sunday'
+    else:
+        weekday = ''
+    date_str = weekday + ', ' + month + ' ' + str(day) + ', ' + str(year)
+    return date_str
+
+def main():
     test_date = '2019-03-12T12:00:00-05:00'
     formatted_date = format_date(test_date)
     print(formatted_date)
@@ -64,6 +116,7 @@ def format_date(date):
 
     data = collection.find_one({"$and":[{"meal":"dinner"},{"date":formatted_date}]})
     print(data)
+    print(get_date_today())
 
 if __name__ == '__main__':
-    main()'''
+    main()

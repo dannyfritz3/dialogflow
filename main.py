@@ -17,7 +17,8 @@ import logging
 
 from flask import Flask, request, make_response, jsonify
 import pymongo
-from format_date import format_date
+from format_date import format_date, get_date_today
+import datetime
 
 try:
     import googleclouddebugger
@@ -36,7 +37,11 @@ def results():
     # fetch meal and date from json
     meal = req.get('queryResult').get('parameters').get('meal')
     date = req.get('queryResult').get('parameters').get('date')
-    formatted_date = format_date(date)
+    formatted_date = ''
+    if date == '':
+        formatted_date = get_date_today()
+    else:
+        formatted_date = format_date(date)
     #get menu data from database
     data = collection.find_one({"$and":[{"meal":meal},{"date":formatted_date}]})
     resp_str = build_response(data, meal)
