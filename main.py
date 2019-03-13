@@ -59,7 +59,7 @@ def build_response(data, meal):
                 else:
                     build_str += data.get(i) + ", "
             count += 1
-        full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
+            full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
         return full_str
     else:
         return 'Sorry, couldn\'t find any information on that.'
