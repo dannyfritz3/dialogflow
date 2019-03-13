@@ -1,18 +1,3 @@
-# Copyright 2015 Google Inc. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# [START gae_flex_quickstart]
 import logging
 
 from flask import Flask, request, make_response, jsonify
@@ -20,6 +5,7 @@ import pymongo
 from format_date import format_date, get_date_today
 import datetime
 
+#enables debugging in google cloud console
 try:
     import googleclouddebugger
     googleclouddebugger.enable()
@@ -27,17 +13,20 @@ except ImportError:
     pass
 
 app = Flask(__name__)
+#establishing a client connection with database (mongodb)
 client = pymongo.MongoClient("mongodb+srv://admin:password1234@cluster0-bzguy.gcp.mongodb.net/test?retryWrites=true")
 db = client.test
+#retrieve the menu-data collection
 collection = db['menu_data']
 # function for responses
 def results():
     # build a request object
     req = request.get_json(force=True)
-    # fetch meal and date from json
+    # fetch meal and date from json packet
     meal = req.get('queryResult').get('parameters').get('meal')
     date = req.get('queryResult').get('parameters').get('date')
     formatted_date = ''
+    #if no date specified from user, use today's date
     if date == '':
         formatted_date = get_date_today()
     else:
@@ -48,12 +37,14 @@ def results():
     return {'fulfillmentText':resp_str}
 
 def build_response(data, meal):
+    #function used to help build the output string
     meta_data = ['_id', 'date', 'meal']
     if len(data) > 0:
         build_str = ''
         count = 0
         for i in data:
             if i not in meta_data:
+                #if the last item in the dictionary is being appended, use 'and' and a period at the end
                 if count == (len(data)-1):
                     build_str += "and " + data.get(i) + "."
                 else:

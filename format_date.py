@@ -1,4 +1,3 @@
-import pymongo
 import datetime
 
 def format_date(date):
@@ -105,18 +104,3 @@ def get_date_today():
         weekday = ''
     date_str = weekday + ', ' + month + ' ' + str(day) + ', ' + str(year)
     return date_str
-
-def main():
-    test_date = '2019-03-12T12:00:00-05:00'
-    formatted_date = format_date(test_date)
-    print(formatted_date)
-    client = pymongo.MongoClient("mongodb+srv://admin:password1234@cluster0-bzguy.gcp.mongodb.net/test?retryWrites=true")
-    db = client.test
-    collection = db['menu_data']
-
-    data = collection.find_one({"$and":[{"meal":"dinner"},{"date":formatted_date}]})
-    print(data)
-    print(get_date_today())
-
-if __name__ == '__main__':
-    main()

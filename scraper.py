@@ -2,7 +2,6 @@ import requests
 from requests.exceptions import RequestException
 from contextlib import closing
 from selenium import webdriver
-#from pyvirtualdisplay import Display
 import time
 import datetime
 import pymongo
