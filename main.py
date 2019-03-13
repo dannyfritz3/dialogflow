@@ -54,12 +54,12 @@ def build_response(data, meal):
         count = 0
         for i in data:
             if i not in meta_data:
-                if count == len(data - 1):
+                if count == (len(data)-1):
                     build_str += "and " + data.get(i) + "."
                 else:
                     build_str += data.get(i) + ", "
             count += 1
-            full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
+        full_str = 'Today for ' + meal + ', the reef will be serving ' + build_str
         return full_str
     else:
         return 'Sorry, couldn\'t find any information on that.'
