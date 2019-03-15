@@ -1,4 +1,10 @@
 import datetime
+import pymongo
+
+client = pymongo.MongoClient("mongodb+srv://admin:password1234@cluster0-bzguy.gcp.mongodb.net/test?retryWrites=true")
+db = client.test
+#retrieve the menu-data collection
+collection = db['menu_data']
 
 def format_date(date):
     split_text = date.split('T')
@@ -51,7 +57,20 @@ def format_date(date):
     else:
         weekday = ''
     date_str = weekday + ', ' + month + ' ' + str(day) + ', ' + str(year)
-    return date_str
+
+    meta_data = ['_id', 'dates_list']
+    data = collection.find_one({'dates_list':'test'})
+    check_dates = []
+    for i in data:
+        if i not in meta_data:
+            check_dates.append(i)
+
+    if date_str in check_dates:
+        return date_str
+    else:
+        for d in check_dates:
+            if weekday in d:
+                return d
 
 def get_date_today():
     day = datetime.datetime.today().day
@@ -122,12 +141,12 @@ def build_response(data, meal, formatted_date):
 
         prefix = ''
         if formatted_date == get_date_today():
-            prefix = 'Today '
+            prefix = 'Today'
         else:
             split_info = formatted_date.split(',')
             prefix = split_info[0]
 
-        full_str = prefix + 'for ' + meal + ', the reef will be serving ' + build_str
+        full_str = prefix + ' for ' + meal + ', the reef will be serving ' + build_str
         return full_str
     else:
         return 'Sorry, couldn\'t find any information on that.'

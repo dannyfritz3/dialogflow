@@ -12,6 +12,7 @@ collection = db.menu_data
 
 def main():
     #date = 'Monday, March 11, 2019'
+    collection.remove()
     data = scrape()
     for item in data:
         test_id = collection.insert_one(item)
@@ -26,12 +27,17 @@ def scrape():
     elem = browser.find_element_by_class_name('cbo_nn_menuTable')
     children = elem.find_elements_by_class_name('cbo_nn_menuCell')
 
+    dates_list = {}
+    dates_list['dates_list'] = 'test'
+    dt_ct = 0
     dates = []
     for child in children:
         info = child.text
         split_info = info.split('\n')
+        dates_list[str(dt_ct)] = split_info[0]
         dates.append(split_info[0])
-    
+        dt_ct += 1
+    test_id = collection.insert_one(dates_list)
     weekend_meals = ['breakfast', 'brunch', 'dinner']
     weekday_meals = ['breakfast', 'lunch', 'dinner']
 
@@ -44,7 +50,7 @@ def scrape():
                 done = False
                 resp_dict['date'] = date
                 resp_dict['meal'] = meal
-                time.sleep(1)
+                time.sleep(0.25)
                 elem = browser.find_element_by_class_name('cbo_nn_menuTable')
                 children = elem.find_elements_by_class_name('cbo_nn_menuCell')
                 for child in children:
@@ -55,7 +61,7 @@ def scrape():
                         for link in meal_links:
                             if meal.upper() in link.text:
                                 link.click()
-                                time.sleep(1)
+                                time.sleep(0.25)
                                 menu_items = browser.find_elements_by_class_name('cbo_nn_itemHover')
                                 count = 0
                                 for menu_item in menu_items:
@@ -73,7 +79,7 @@ def scrape():
                 done = False
                 resp_dict['date'] = date
                 resp_dict['meal'] = meal
-                time.sleep(1)
+                time.sleep(0.25)
                 elem = browser.find_element_by_class_name('cbo_nn_menuTable')
                 children = elem.find_elements_by_class_name('cbo_nn_menuCell')
                 for child in children:
@@ -84,7 +90,7 @@ def scrape():
                         for link in meal_links:
                             if meal.upper() in link.text:
                                 link.click()
-                                time.sleep(1)
+                                time.sleep(0.25)
                                 menu_items = browser.find_elements_by_class_name('cbo_nn_itemHover')
                                 count = 0
                                 for menu_item in menu_items:
