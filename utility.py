@@ -63,7 +63,7 @@ def format_date(date):
     check_dates = []
     for i in data:
         if i not in meta_data:
-            check_dates.append(i)
+            check_dates.append(data.get(i))
 
     if date_str in check_dates:
         return date_str
